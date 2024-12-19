@@ -5,7 +5,7 @@ const Layout = () => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:4444/createpost")
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/createpost`)
       .then((response) => response.json())
       .then((data) => {
         setPosts(data);

@@ -6,12 +6,12 @@ const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [direction, setDirection] = useState(false);
-  const { setData, data } = useContext(UserContext);
+  const { setData } = useContext(UserContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    const response = await fetch("http://localhost:4444/login", {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/login`, {
       method: "POST",
       body: JSON.stringify({ username, password }),
       headers: {
@@ -22,16 +22,16 @@ const LoginPage = () => {
     const data = await response.json();
 
     if (response.ok) {
-      // เก็บข้อมูลผู้ใช้ใน UserContext และ localStorage
+      // Save user data in UserContext and localStorage
       localStorage.setItem("token", data.token);
       localStorage.setItem(
         "currentUser",
         JSON.stringify({ username, id: data.id })
-      ); // เก็บข้อมูลผู้ใช้
-      setData({ username, id: data.id }); // เก็บข้อมูลผู้ใช้ใน Context
+      ); // Store user data
+      setData({ username, id: data.id }); // Store user data in Context
       setDirection(true);
     } else {
-      alert("wrong information");
+      alert("Wrong information");
     }
   };
 

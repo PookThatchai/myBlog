@@ -12,7 +12,7 @@ const EditPost = () => {
   const [cover, setCover] = useState("");
 
   useEffect(() => {
-    fetch(`http://localhost:4444/cratepost/${id}`)
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/cratepost/${id}`)
       .then((response) => response.json())
       .then((postInfo) => {
         setTitle(postInfo.title);
@@ -41,13 +41,16 @@ const EditPost = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:4444/cratepost/${id}`, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: data,
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/cratepost/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: data,
+        }
+      );
 
       if (response.ok) {
         const result = await response.json();
